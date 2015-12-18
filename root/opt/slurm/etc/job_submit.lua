@@ -24,11 +24,6 @@ function slurm_job_submit (job_desc, part_list, submit_uid)
         job_desc.partition = "express,normal"
     end
 
-    if job_desc.partition == "ipsych_express" then
-        --slurm.log_info("slurm_job_submit: job from uid %d, add 'normal'", job_desc.user_id)
-        job_desc.partition = "ipsych_express,ipsych_normal"
-    end
-
     if job_desc.std_out == nil and job_desc.std_err == nil and job_desc.name ~= nil then
         job_desc.std_out = job_desc.name .. "-%j.out"
         job_desc.std_err = job_desc.name .. "-%j.out"
