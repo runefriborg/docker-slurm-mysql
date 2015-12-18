@@ -8,7 +8,7 @@ FROM runefriborg/docker-c6-supervisord
 
 MAINTAINER Rune Friborg <runef@birc.au.dk>
 
-# Install slurm
+# Install dependencies for SLURM and MySQL server
 RUN yum -y install openssh-server gcc gcc-g++ make munge munge-devel httpd bzip2 vim-minimal tar perl git mysql-server mysql-devel lua lua-devel
 
 # Configure munge
