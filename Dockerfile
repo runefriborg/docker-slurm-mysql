@@ -1,18 +1,12 @@
 ######################################################
 #
-# Slurm Server
+# Slurm+MySQL - ready to test jobs and configurations
+# Centos 6.x based
+######################################################
 
 FROM runefriborg/docker-c6-supervisord
 
 MAINTAINER Rune Friborg <runef@birc.au.dk>
-
-# Add munge user
-#RUN adduser slurm && \
-#    echo "slurm:slurm" | chpasswd
-#USER slurm
-#RUN mkdir /home/slurm/.ssh
-#ADD ssh/id_rsa.pub /home/slurm/.ssh/authorized_keys
-#USER root
 
 # Install slurm
 RUN yum -y install openssh-server gcc gcc-g++ make munge munge-devel httpd bzip2 vim-minimal tar perl git mysql-server mysql-devel lua lua-devel
@@ -29,6 +23,8 @@ RUN create-munge-key && \
 WORKDIR /usr/local
 RUN git clone https://github.com/SchedMD/slurm.git
 WORKDIR /usr/local/slurm
+
+# Select SLURM version
 RUN git checkout tags/slurm-15-08-4-1
 
 RUN ./configure --prefix=/opt/slurm --sysconfdir=/opt/slurm/etc --silent --with-mysql_config=/usr/bin/ CFLAGS=-Os && \
@@ -37,31 +33,11 @@ RUN ./configure --prefix=/opt/slurm --sysconfdir=/opt/slurm/etc --silent --with-
   cd contribs/lua && \
   make install
 
-
-
-#RUN mkdir -p /etc/sysconfig/slurm
-
-#RUN \
-#  cp etc/init.d.slurm /etc/init.d/slurmd  && \
-#  chmod +x /etc/init.d/slurmd && \
-#  cp -rf doc/html /var/www/html/slurm && \
-#  chown -R apache:apache /var/www/html/slurm && \
-#  mkdir /var/log/slurm && \
-#  touch /var/log/slurm/job_completions && \
-#  touch /var/log/slurm/accounting && \
-#  touch /var/log/slurm/slurmdbd.log && \
-#  chown -R slurm:slurm /var/log/slurm && \
-#  touch /var/spool/last_config_lite && \
-#  touch /var/spool/last_config_lite.new && \
-#  chown slurm:slurm /var/spool/last_config_lite* && \
-#  chown root:slurm /var/spool && \
-#  chmod g+w /var/spool
-#
-
 RUN adduser testuser && \
     echo "testuser:testuser" | chpasswd && \
     echo "export PATH=/opt/slurm/bin:\$PATH" >> /home/testuser/.bashrc
 
+# Copy SLURM configuration files and supervisord files to the container
 ADD root /
 
 RUN chown testuser:testuser /home/testuser/slurm.submit
