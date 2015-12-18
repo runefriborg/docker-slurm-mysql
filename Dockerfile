@@ -2,8 +2,7 @@
 #
 # Slurm Server
 
-#FROM runefriborg/docker-c6-supervisord
-FROM runefriborg:centos6
+FROM runefriborg/docker-c6-supervisord
 
 MAINTAINER Rune Friborg <runef@birc.au.dk>
 
