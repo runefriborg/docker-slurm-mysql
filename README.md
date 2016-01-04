@@ -4,27 +4,6 @@ Full SLURM+MySQL installation preconfigured to test different SLURM configuratio
 
 [SLURM](http://slurm.schedmd.com/)
 
-## To run the container
-
-```
-> docker run -h docker.example.com \
-  -p 10022:22     \ # SSHD, SFTP
-  -d --name slurm \
-  runefriborg/docker-slurm-mysql
-```
-
-This will start the container with a supervisor process which will start the following daemons:
-
-```
-> supervisorctl status
-munge                            RUNNING   pid 23, uptime 0:01:14
-mysqld                           RUNNING   pid 26, uptime 0:01:14
-slurmctld                        RUNNING   pid 22, uptime 0:01:14
-slurmd                           RUNNING   pid 28, uptime 0:01:14
-slurmdbd                         RUNNING   pid 24, uptime 0:01:14
-sshd                             RUNNING   pid 21, uptime 0:01:14
-```
-
 ## What's inside
 
 The build contains the following users:
@@ -73,6 +52,27 @@ From here you can run the SLURM commands in /opt/slurm/bin, reconfigure SLURM in
 > su - testuser
 > sbatch slurm.submit
 Submitted batch job 1
+```
+
+## To run the container
+
+```
+> docker run -h docker.example.com \
+  -p 10022:22     \ # SSHD, SFTP
+  -d --name slurm \
+  runefriborg/docker-slurm-mysql
+```
+
+This will start the container with a supervisor process which will start the following daemons:
+
+```
+> supervisorctl status
+munge                            RUNNING   pid 23, uptime 0:01:14
+mysqld                           RUNNING   pid 26, uptime 0:01:14
+slurmctld                        RUNNING   pid 22, uptime 0:01:14
+slurmd                           RUNNING   pid 28, uptime 0:01:14
+slurmdbd                         RUNNING   pid 24, uptime 0:01:14
+sshd                             RUNNING   pid 21, uptime 0:01:14
 ```
 
 ## How to build the image
