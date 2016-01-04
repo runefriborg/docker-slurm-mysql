@@ -41,7 +41,7 @@ RUN adduser testuser && \
 # Copy SLURM configuration files and supervisord files to the container
 ADD root /
 
-RUN chown testuser:testuser /home/testuser/slurm.submit
+RUN chown testuser:testuser -R /home/testuser
 
 RUN \
   /etc/init.d/mysqld start && \
