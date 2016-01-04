@@ -45,9 +45,11 @@ RUN chown testuser:testuser /home/testuser/slurm.submit
 
 RUN \
   /etc/init.d/mysqld start && \
+  sleep 5 && \
   mysqladmin -u root password 'seCret' && \
   /usr/sbin/munged && \
   /opt/slurm/sbin/slurmdbd && \
+  sleep 5 && \
   /opt/slurm/bin/sacctmgr -i add cluster cluster0 && \
   /opt/slurm/bin/sacctmgr -i add account basic cluster=cluster0 Description="The One node cluster" Organization="Big O" && \
   /opt/slurm/bin/sacctmgr -i add user testuser DefaultAccount=basic Account=basic && \
