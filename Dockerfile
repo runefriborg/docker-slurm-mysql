@@ -31,7 +31,8 @@ RUN ./configure --prefix=/opt/slurm --sysconfdir=/opt/slurm/etc --silent --with-
   make && \
   make install && \
   cd contribs/lua && \
-  make install
+  make install && \
+  mkdir -p /var/log/slurm
 
 RUN adduser testuser && \
     echo "testuser:testuser" | chpasswd && \
